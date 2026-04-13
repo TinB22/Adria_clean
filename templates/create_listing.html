@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objavi oglas | Adria Clean</title>
+</head>
+<body>
+    <h1>Objavi oglas</h1>
+
+    <form method="POST" action="/create-listing">
+        <label for="title">Naslov oglasa:</label><br>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="description">Opis:</label><br>
+        <textarea id="description" name="description" rows="5" required></textarea><br><br>
+
+        <label for="user_type">Vrsta korisnika:</label><br>
+        <select id="user_type" name="user_type" required>
+            <option value="">-- Odaberi --</option>
+            <option value="owner">Vlasnik apartmana/vile</option>
+            <option value="cleaner">Čistač / pružatelj usluge</option>
+        </select><br><br>
+
+        <label for="location">Lokacija:</label><br>
+        <input type="text" id="location" name="location" required><br><br>
+
+        <label for="contact">Kontakt:</label><br>
+        <input type="text" id="contact" name="contact" required><br><br>
+
+        <button type="submit">Objavi oglas</button>
+    </form>
+
+    <br>
+    <a href="/">Povratak na početnu</a>
+</body>
+</html>
