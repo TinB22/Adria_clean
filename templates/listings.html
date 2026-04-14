@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pregled oglasa | Adria Clean</title>
+</head>
+<body>
+    <h1>Pregled oglasa</h1>
+
+    {% if listings %}
+        {% for listing in listings %}
+            <hr>
+            <h2>{{ listing.title }}</h2>
+            <p><strong>Opis:</strong> {{ listing.description }}</p>
+            <p><strong>Vrsta korisnika:</strong>
+                {% if listing.user_type == "owner" %}
+                    Vlasnik apartmana / vile
+                {% elif listing.user_type == "cleaner" %}
+                    Čistač / pružatelj usluge
+                {% else %}
+                    Nepoznato
+                {% endif %}
+            </p>
+            <p><strong>Lokacija:</strong> {{ listing.location }}</p>
+            <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
+            <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
+        {% endfor %}
+    {% else %}
+        <p>Trenutno nema oglasa.</p>
+    {% endif %}
+
+    <br>
+    <a href="/">Povratak na početnu</a>
+</body>
+</html>

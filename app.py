@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from config import Config
-from datetime import datetime
+from datetime import datetime, UTC
+from bson.objectid import ObjectId
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -31,7 +32,7 @@ def create_listing():
             "user_type": user_type,
             "location": location,
             "contact": contact,
-            "created_at": datetime.utcnow()
+            "created_at": datetime.now(UTC)
         }
 
         listings_collection.insert_one(listing)
@@ -39,6 +40,23 @@ def create_listing():
         return redirect(url_for("home"))
 
     return render_template("create_listing.html")
+
+
+@app.route("/listings")
+def listings():
+    all_listings = list(listings_collection.find().sort("created_at", -1))
+    return render_template("listings.html", listings=all_listings)
+
+@app.route("/admin")
+def admin():
+    all_listings = list(listings_collection.find().sort("created_at", -1))
+    return render_template("admin.html", listings=all_listings)
+
+
+@app.route("/delete-listing/<listing_id>", methods=["POST"])
+def delete_listing(listing_id):
+    listings_collection.delete_one({"_id": ObjectId(listing_id)})
+    return redirect(url_for("admin"))
 
 
 if __name__ == "__main__":
