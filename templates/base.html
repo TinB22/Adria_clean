@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Adria Clean{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <a href="{{ url_for('home') }}" class="logo">Adria Clean</a>
+
+            <nav class="nav">
+                <a href="{{ url_for('home') }}">Početna</a>
+                <a href="{{ url_for('create_listing') }}">Objavi oglas</a>
+                <a href="{{ url_for('listings') }}">Pregled oglasa</a>
+                <a href="{{ url_for('admin') }}">Admin panel</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

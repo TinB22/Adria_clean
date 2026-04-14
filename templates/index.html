@@ -1,16 +1,25 @@
-<!DOCTYPE html>
-<html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adria Clean</title>
-</head>
-<body>
-    <h1>Adria Clean</h1>
-    <p>Platforma za povezivanje vlasnika vila/apartmana i čistača.</p>
+{% extends "base.html" %}
 
-    <a href="/create-listing">Objavi oglas</a><br>
-    <a href="/listings">Pregled oglasa</a><br>
-    <a href="/admin">Admin panel</a>
-</body>
-</html>
+{% block title %}Početna | Adria Clean{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1 class="page-title">Adria Clean</h1>
+    <p class="page-subtitle">
+        Jednostavna platforma za povezivanje vlasnika vila i apartmana s čistačima i pružateljima usluga čišćenja.
+    </p>
+
+    <div class="button-group">
+        <a href="{{ url_for('create_listing') }}" class="btn">Objavi oglas</a>
+        <a href="{{ url_for('listings') }}" class="btn btn-secondary">Pregled oglasa</a>
+    </div>
+</section>
+
+<section class="form-card">
+    <h2>Kako aplikacija radi?</h2>
+    <p>
+        Vlasnici mogu objaviti oglas da traže čišćenje, a čistači mogu objaviti ponudu svojih usluga.
+        Oglasi su pregledni, jednostavni za objavu i lako dostupni za administraciju.
+    </p>
+</section>
+{% endblock %}
