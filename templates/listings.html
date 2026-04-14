@@ -1,36 +1,43 @@
-<!DOCTYPE html>
-<html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pregled oglasa | Adria Clean</title>
-</head>
-<body>
-    <h1>Pregled oglasa</h1>
+{% extends "base.html" %}
 
-    {% if listings %}
-        {% for listing in listings %}
-            <hr>
-            <h2>{{ listing.title }}</h2>
-            <p><strong>Opis:</strong> {{ listing.description }}</p>
-            <p><strong>Vrsta korisnika:</strong>
-                {% if listing.user_type == "owner" %}
-                    Vlasnik apartmana / vile
-                {% elif listing.user_type == "cleaner" %}
-                    Čistač / pružatelj usluge
-                {% else %}
-                    Nepoznato
-                {% endif %}
-            </p>
-            <p><strong>Lokacija:</strong> {{ listing.location }}</p>
-            <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
-            <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
-        {% endfor %}
-    {% else %}
+{% block title %}Pregled oglasa | Adria Clean{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Pregled oglasa</h1>
+<p class="page-subtitle">Pregled svih trenutno objavljenih oglasa.</p>
+
+{% if listings %}
+    {% for listing in listings %}
+        <article class="listing-card">
+            {% if listing.user_type == "owner" %}
+                <span class="badge badge-owner">Traži uslugu</span>
+            {% elif listing.user_type == "cleaner" %}
+                <span class="badge badge-cleaner">Nudi uslugu</span>
+            {% endif %}
+
+            <h2 class="listing-title">{{ listing.title }}</h2>
+
+            <div class="listing-meta">
+                <p><strong>Opis:</strong> {{ listing.description }}</p>
+                <p>
+                    <strong>Vrsta korisnika:</strong>
+                    {% if listing.user_type == "owner" %}
+                        Vlasnik apartmana / vile
+                    {% elif listing.user_type == "cleaner" %}
+                        Čistač / pružatelj usluge
+                    {% else %}
+                        Nepoznato
+                    {% endif %}
+                </p>
+                <p><strong>Lokacija:</strong> {{ listing.location }}</p>
+                <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
+                <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% else %}
+    <div class="empty-state">
         <p>Trenutno nema oglasa.</p>
-    {% endif %}
-
-    <br>
-    <a href="/">Povratak na početnu</a>
-</body>
-</html>
+    </div>
+{% endif %}
+{% endblock %}

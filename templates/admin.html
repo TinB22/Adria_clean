@@ -1,41 +1,49 @@
-<!DOCTYPE html>
-<html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin panel | Adria Clean</title>
-</head>
-<body>
-    <h1>Admin panel</h1>
-    <p>Upravljanje oglasima</p>
+{% extends "base.html" %}
 
-    {% if listings %}
-        {% for listing in listings %}
-            <hr>
-            <h2>{{ listing.title }}</h2>
-            <p><strong>Opis:</strong> {{ listing.description }}</p>
-            <p><strong>Vrsta korisnika:</strong>
-                {% if listing.user_type == "owner" %}
-                    Vlasnik apartmana / vile
-                {% elif listing.user_type == "cleaner" %}
-                    Čistač / pružatelj usluge
-                {% else %}
-                    Nepoznato
-                {% endif %}
-            </p>
-            <p><strong>Lokacija:</strong> {{ listing.location }}</p>
-            <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
-            <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
+{% block title %}Admin panel | Adria Clean{% endblock %}
 
-            <form method="POST" action="{{ url_for('delete_listing', listing_id=listing._id) }}">
-                <button type="submit">Obriši oglas</button>
-            </form>
-        {% endfor %}
-    {% else %}
+{% block content %}
+<h1 class="page-title">Admin panel</h1>
+<p class="page-subtitle">Pregled i upravljanje objavljenim oglasima.</p>
+
+{% if listings %}
+    {% for listing in listings %}
+        <article class="listing-card">
+            {% if listing.user_type == "owner" %}
+                <span class="badge badge-owner">Traži uslugu</span>
+            {% elif listing.user_type == "cleaner" %}
+                <span class="badge badge-cleaner">Nudi uslugu</span>
+            {% endif %}
+
+            <h2 class="listing-title">{{ listing.title }}</h2>
+
+            <div class="listing-meta">
+                <p><strong>Opis:</strong> {{ listing.description }}</p>
+                <p>
+                    <strong>Vrsta korisnika:</strong>
+                    {% if listing.user_type == "owner" %}
+                        Vlasnik apartmana / vile
+                    {% elif listing.user_type == "cleaner" %}
+                        Čistač / pružatelj usluge
+                    {% else %}
+                        Nepoznato
+                    {% endif %}
+                </p>
+                <p><strong>Lokacija:</strong> {{ listing.location }}</p>
+                <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
+                <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
+            </div>
+
+            <div class="actions-row">
+                <form method="POST" action="{{ url_for('delete_listing', listing_id=listing._id) }}">
+                    <button type="submit" class="btn btn-danger">Obriši oglas</button>
+                </form>
+            </div>
+        </article>
+    {% endfor %}
+{% else %}
+    <div class="empty-state">
         <p>Nema oglasa za prikaz.</p>
-    {% endif %}
-
-    <br>
-    <a href="/">Povratak na početnu</a>
-</body>
-</html>
+    </div>
+{% endif %}
+{% endblock %}

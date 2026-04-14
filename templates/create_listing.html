@@ -1,37 +1,43 @@
-<!DOCTYPE html>
-<html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Objavi oglas | Adria Clean</title>
-</head>
-<body>
-    <h1>Objavi oglas</h1>
+{% extends "base.html" %}
 
-    <form method="POST" action="/create-listing">
-        <label for="title">Naslov oglasa:</label><br>
-        <input type="text" id="title" name="title" required><br><br>
+{% block title %}Objavi oglas | Adria Clean{% endblock %}
 
-        <label for="description">Opis:</label><br>
-        <textarea id="description" name="description" rows="5" required></textarea><br><br>
+{% block content %}
+<h1 class="page-title">Objavi oglas</h1>
+<p class="page-subtitle">Ispuni podatke i objavi svoj oglas na platformi.</p>
 
-        <label for="user_type">Vrsta korisnika:</label><br>
-        <select id="user_type" name="user_type" required>
-            <option value="">-- Odaberi --</option>
-            <option value="owner">Vlasnik apartmana/vile</option>
-            <option value="cleaner">Čistač / pružatelj usluge</option>
-        </select><br><br>
+<section class="form-card">
+    <form method="POST" action="{{ url_for('create_listing') }}">
+        <div class="form-group">
+            <label for="title">Naslov oglasa</label>
+            <input type="text" id="title" name="title" required>
+        </div>
 
-        <label for="location">Lokacija:</label><br>
-        <input type="text" id="location" name="location" required><br><br>
+        <div class="form-group">
+            <label for="description">Opis</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
 
-        <label for="contact">Kontakt:</label><br>
-        <input type="text" id="contact" name="contact" required><br><br>
+        <div class="form-group">
+            <label for="user_type">Vrsta korisnika</label>
+            <select id="user_type" name="user_type" required>
+                <option value="">-- Odaberi --</option>
+                <option value="owner">Vlasnik apartmana / vile</option>
+                <option value="cleaner">Čistač / pružatelj usluge</option>
+            </select>
+        </div>
 
-        <button type="submit">Objavi oglas</button>
+        <div class="form-group">
+            <label for="location">Lokacija</label>
+            <input type="text" id="location" name="location" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Kontakt</label>
+            <input type="text" id="contact" name="contact" required>
+        </div>
+
+        <button type="submit" class="btn">Objavi oglas</button>
     </form>
-
-    <br>
-    <a href="/">Povratak na početnu</a>
-</body>
-</html>
+</section>
+{% endblock %}
