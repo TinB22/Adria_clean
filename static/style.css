@@ -202,3 +202,11 @@ textarea {
     font-size: 14px;
     margin-top: 10px;
 }
+
+.button-group {
+    margin-bottom: 10px;
+}
+
+.form-card {
+    margin-top: 20px;
+}

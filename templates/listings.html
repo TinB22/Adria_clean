@@ -6,6 +6,45 @@
 <h1 class="page-title">Pregled oglasa</h1>
 <p class="page-subtitle">Pregled svih trenutno objavljenih oglasa.</p>
 
+<div class="button-group">
+    <a href="{{ url_for('listings', location=location) }}"
+       class="btn {% if selected_type != 'all' %}btn-secondary{% endif %}">
+        Svi oglasi
+    </a>
+
+    <a href="{{ url_for('listings', type='owner', location=location) }}"
+       class="btn {% if selected_type != 'owner' %}btn-secondary{% endif %}">
+        Vlasnici
+    </a>
+
+    <a href="{{ url_for('listings', type='cleaner', location=location) }}"
+       class="btn {% if selected_type != 'cleaner' %}btn-secondary{% endif %}">
+        Čistači
+    </a>
+</div>
+
+<section class="form-card">
+    <form method="GET" action="{{ url_for('listings') }}">
+        <input type="hidden" name="type" value="{{ selected_type }}">
+
+        <div class="form-group">
+            <label for="location">Pretraga po lokaciji</label>
+            <input
+                type="text"
+                id="location"
+                name="location"
+                placeholder="Npr. Poreč, Rovinj, Umag..."
+                value="{{ location }}"
+            >
+        </div>
+
+        <div class="actions-row">
+            <button type="submit" class="btn">Pretraži</button>
+            <a href="{{ url_for('listings') }}" class="btn btn-secondary">Resetiraj</a>
+        </div>
+    </form>
+</section>
+
 {% if listings %}
     {% for listing in listings %}
         <article class="listing-card">
@@ -31,13 +70,13 @@
                 </p>
                 <p><strong>Lokacija:</strong> {{ listing.location }}</p>
                 <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
-                <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
+                <p><strong>Datum objave:</strong> {{ listing.formatted_created_at }}</p>
             </div>
         </article>
     {% endfor %}
 {% else %}
     <div class="empty-state">
-        <p>Trenutno nema oglasa.</p>
+        <p>Nema oglasa za odabrani filter ili lokaciju.</p>
     </div>
 {% endif %}
 {% endblock %}

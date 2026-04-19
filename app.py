@@ -11,6 +11,11 @@ client = MongoClient(app.config["MONGO_URI"])
 db = client[app.config["DB_NAME"]]
 listings_collection = db["listings"]
 
+#helper funkcija
+def format_datetime(dt):
+    if dt:
+        return dt.strftime("%d.%m.%Y. u %H:%M")
+    return ""
 
 @app.route("/")
 def home():
@@ -44,8 +49,30 @@ def create_listing():
 
 @app.route("/listings")
 def listings():
-    all_listings = list(listings_collection.find().sort("created_at", -1))
-    return render_template("listings.html", listings=all_listings)
+    selected_type = request.args.get("type", "all")
+    location = request.args.get("location", "").strip()
+
+    query = {}
+
+    if selected_type == "owner":
+        query["user_type"] = "owner"
+    elif selected_type == "cleaner":
+        query["user_type"] = "cleaner"
+
+    if location:
+        query["location"] = {"$regex": location, "$options": "i"}
+
+    all_listings = list(listings_collection.find(query).sort("created_at", -1))
+
+    for listing in all_listings:
+        listing["formatted_created_at"] = format_datetime(listing.get("created_at"))
+
+    return render_template(
+        "listings.html",
+        listings=all_listings,
+        selected_type=selected_type,
+        location=location
+    )
 
 @app.route("/admin")
 def admin():
