@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Uredi oglas | Adria Clean{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Uredi oglas</h1>
+<p class="page-subtitle">Ažuriraj podatke postojećeg oglasa.</p>
+
+<section class="form-card">
+    <form method="POST" action="{{ url_for('edit_listing', listing_id=listing._id) }}">
+        <div class="form-group">
+            <label for="title">Naslov oglasa</label>
+            <input type="text" id="title" name="title" value="{{ listing.title }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Opis</label>
+            <textarea id="description" name="description" required>{{ listing.description }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="user_type">Vrsta korisnika</label>
+            <select id="user_type" name="user_type" required>
+                <option value="owner" {% if listing.user_type == "owner" %}selected{% endif %}>
+                    Vlasnik apartmana / vile
+                </option>
+                <option value="cleaner" {% if listing.user_type == "cleaner" %}selected{% endif %}>
+                    Čistač / pružatelj usluge
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="location">Lokacija</label>
+            <input type="text" id="location" name="location" value="{{ listing.location }}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="contact">Kontakt</label>
+            <input type="text" id="contact" name="contact" value="{{ listing.contact }}" required>
+        </div>
+
+        <div class="actions-row">
+            <button type="submit" class="btn">Spremi promjene</button>
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary">Odustani</a>
+        </div>
+    </form>
+</section>
+{% endblock %}
