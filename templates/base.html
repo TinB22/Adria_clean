@@ -9,18 +9,18 @@
 <body>
     <header class="site-header">
         <div class="container header-content">
-            <a href="{{ url_for('home') }}" class="logo">Adria Clean</a>
+            <a href="{{ url_for('home') }}" class="logo">Adria <span>Clean</span></a>
 
             <nav class="nav">
                 <a href="{{ url_for('home') }}">Početna</a>
-                <a href="{{ url_for('create_listing') }}">Objavi oglas</a>
-                <a href="{{ url_for('listings') }}">Pregled oglasa</a>
-                <a href="{% if session.get('admin_logged_in') %}{{ url_for('admin') }}{% else %}{{ url_for('admin_login') }}{% endif %}">
-                    Admin panel
-                </a>
-
+                <a href="{{ url_for('listings') }}">Oglasi</a>
+                <a href="{{ url_for('create_listing') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Objavi oglas</a>
+                
                 {% if session.get('admin_logged_in') %}
-                    <a href="{{ url_for('admin_logout') }}">Odjava</a>
+                    <a href="{{ url_for('admin') }}">Admin</a>
+                    <a href="{{ url_for('admin_logout') }}" style="color: #f87171;">Odjava</a>
+                {% else %}
+                    <a href="{{ url_for('admin_login') }}">Login</a>
                 {% endif %}
             </nav>
         </div>

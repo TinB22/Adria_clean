@@ -3,23 +3,51 @@
 {% block title %}Početna | Adria Clean{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <h1 class="page-title">Adria Clean</h1>
-    <p class="page-subtitle">
-        Jednostavna platforma za povezivanje vlasnika vila i apartmana s čistačima i pružateljima usluga čišćenja.
-    </p>
-
-    <div class="button-group">
-        <a href="{{ url_for('create_listing') }}" class="btn">Objavi oglas</a>
-        <a href="{{ url_for('listings') }}" class="btn btn-secondary">Pregled oglasa</a>
+<section class="hero container">
+    <div class="hero-text">
+        <h1>Povežite se s najboljim čistačima<span>.</span></h1>
+        <p>Prva platforma u Istri specijalizirana za brzo i pouzdano održavanje apartmana i vila.</p>
+        <div class="cta-buttons">
+            <a href="{{ url_for('create_listing') }}" class="btn btn-primary">Objavi oglas</a>
+            <a href="{{ url_for('listings') }}" class="btn btn-secondary">Pregledaj oglase</a>
+        </div>
+    </div>
+    <div class="hero-image">
+        <img src="https://marbella1.es/cdn/shop/articles/what-luxury-villas-will-be-ready-in-2025.png?v=1734251278&width=1600" alt="Luksuzna vila čišćenje">
     </div>
 </section>
 
-<section class="form-card">
-    <h2>Kako aplikacija radi?</h2>
-    <p>
-        Vlasnici mogu objaviti oglas da traže čišćenje, a čistači mogu objaviti ponudu svojih usluga.
-        Oglasi su pregledni, jednostavni za objavu i lako dostupni za administraciju.
-    </p>
+<section class="container" style="padding: 4rem 0;">
+    <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2.5rem; font-weight: 800;">Kako Adria Clean radi?</h2>
+    
+    <div class="listing-grid">
+        <div class="listing-card" style="text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">📝</div>
+            <h3 style="margin-bottom: 1rem;">Objavite potrebu</h3>
+            <p style="color: var(--text-muted);">Vlasnici vila unose detalje o lokaciji i terminima čišćenja u par klikova.</p>
+        </div>
+
+        <div class="listing-card" style="text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🔍</div>
+            <h3 style="margin-bottom: 1rem;">Pronađite uslugu</h3>
+            <p style="color: var(--text-muted);">Pregledajte bazu dostupnih čistača ili pričekajte da se netko javi na vaš oglas.</p>
+        </div>
+
+        <div class="listing-card" style="text-align: center;">
+            <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤝</div>
+            <h3 style="margin-bottom: 1rem;">Dogovorite termin</h3>
+            <p style="color: var(--text-muted);">Direktno stupite u kontakt i osigurajte vrhunsku čistoću za vaše goste.</p>
+        </div>
+    </div>
+</section>
+
+<section class="container" style="margin-bottom: 6rem;">
+    <div style="background: var(--dark); border-radius: 24px; padding: 4rem; text-align: center; color: white;">
+        <h2 style="font-size: 2rem; margin-bottom: 1.5rem;">Spremni za ljetnu sezonu?</h2>
+        <p style="margin-bottom: 2rem; opacity: 0.8; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Pridružite se zajednici od preko 50+ iznajmljivača i osigurajte svoje termine na vrijeme.
+        </p>
+        <a href="{{ url_for('create_listing') }}" class="btn btn-primary">Kreni odmah</a>
+    </div>
 </section>
 {% endblock %}

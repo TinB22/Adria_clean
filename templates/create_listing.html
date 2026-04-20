@@ -3,41 +3,57 @@
 {% block title %}Objavi oglas | Adria Clean{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Objavi oglas</h1>
-<p class="page-subtitle">Ispuni podatke i objavi svoj oglas na platformi.</p>
+<div class="form-container" style="max-width: 850px; margin: 2rem auto; padding: 0 1rem;">
+    <h1 class="page-title">Objavi oglas</h1>
+    <p class="page-subtitle">Ispuni podatke i pronađi idealnog partnera za održavanje vašeg objekta.</p>
 
-<section class="form-card">
-    <form method="POST" action="{{ url_for('create_listing') }}" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="title">Naslov oglasa</label>
-            <input type="text" id="title" name="title" required>
-        </div>
+    <section class="listing-card" style="padding: 3rem; margin-top: 2rem;">
+        <form method="POST" action="{{ url_for('create_listing') }}" enctype="multipart/form-data">
+            
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="title" style="font-size: 1.1rem; margin-bottom: 0.8rem;">Naslov oglasa</label>
+                <input type="text" id="title" name="title" placeholder="Npr. Čišćenje luksuzne vile u Poreču - subotnja smjena" required 
+                       style="padding: 1rem; font-size: 1rem;">
+            </div>
 
-        <div class="form-group">
-            <label for="description">Opis</label>
-            <textarea id="description" name="description" required></textarea>
-        </div>
+            <div class="form-group" style="margin-bottom: 2rem; background: #f8fafc; padding: 1.5rem; border-radius: 12px; border: 1px dashed #cbd5e1;">
+                <label for="image" style="font-size: 1.1rem; margin-bottom: 0.8rem;">📸 Fotografija objekta (opcionalno)</label>
+                <input type="file" id="image" name="image" accept=".png,.jpg,.jpeg,.webp" style="border: none; background: transparent;">
+                <p class="small-text" style="margin-top: 0.5rem;">Preporučeno: Jasna slika eksterijera ili interijera (JPG, PNG, WEBP)</p>
+            </div>
 
-        <div class="form-group">
-            <label for="user_type">Vrsta korisnika</label>
-            <select id="user_type" name="user_type" required>
-                <option value="">-- Odaberi --</option>
-                <option value="owner">Vlasnik apartmana / vile</option>
-                <option value="cleaner">Čistač / pružatelj usluge</option>
-            </select>
-        </div>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="description" style="font-size: 1.1rem; margin-bottom: 0.8rem;">Opis i detalji</label>
+                <textarea id="description" name="description" placeholder="Navedite kvadraturu, broj soba, specifične zahtjeve ili vrijeme dolaska..." required 
+                          style="min-height: 180px; padding: 1rem; font-size: 1rem;"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label for="location">Lokacija</label>
-            <input type="text" id="location" name="location" required>
-        </div>
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="user_type" style="font-size: 1.1rem; margin-bottom: 0.8rem;">Vrsta oglasa</label>
+                <select id="user_type" name="user_type" required style="padding: 1rem; font-size: 1rem;">
+                    <option value="">-- Odaberite ulogu --</option>
+                    <option value="owner">Vlasnik objekta (tražim čišćenje)</option>
+                    <option value="cleaner">Čistač / Servis (nudim usluge)</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="contact">Kontakt</label>
-            <input type="text" id="contact" name="contact" required>
-        </div>
+            <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem;">
+                <div class="form-group">
+                    <label for="location" style="font-size: 1.1rem; margin-bottom: 0.8rem;">📍 Grad / Mjesto</label>
+                    <input type="text" id="location" name="location" placeholder="Npr. Rovinj" required 
+                           style="padding: 1rem; font-size: 1rem;">
+                </div>
+                <div class="form-group">
+                    <label for="contact" style="font-size: 1.1rem; margin-bottom: 0.8rem;">📞 Kontakt (mob/mail)</label>
+                    <input type="text" id="contact" name="contact" placeholder="09x xxx xxxx" required 
+                           style="padding: 1rem; font-size: 1rem;">
+                </div>
+            </div>
 
-        <button type="submit" class="btn">Objavi oglas</button>
-    </form>
-</section>
+            <button type="submit" class="btn btn-primary" style="width: 100%; height: 60px; font-size: 1.2rem; justify-content: center; letter-spacing: 0.5px;">
+                Objavi oglas odmah
+            </button>
+        </form>
+    </section>
+</div>
 {% endblock %}

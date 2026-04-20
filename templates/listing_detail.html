@@ -3,36 +3,37 @@
 {% block title %}{{ listing.title }} | Adria Clean{% endblock %}
 
 {% block content %}
-<article class="listing-card">
-    {% if listing.user_type == "owner" %}
-        <span class="badge badge-owner">Traži uslugu</span>
-    {% elif listing.user_type == "cleaner" %}
-        <span class="badge badge-cleaner">Nudi uslugu</span>
-    {% endif %}
+<div style="max-width: 800px; margin: 0 auto;">
+    <a href="{{ url_for('listings') }}" style="text-decoration: none; color: var(--primary); font-weight: 600;">← Natrag na listu</a>
+    
+    <article class="listing-card" style="margin-top: 1.5rem; padding: 3rem;">
+        {% if listing.user_type == "owner" %}
+            <span class="badge badge-owner">Vlasnik traži čišćenje</span>
+        {% else %}
+            <span class="badge badge-cleaner">Čistač nudi uslugu</span>
+        {% endif %}
 
-    <h1 class="page-title">{{ listing.title }}</h1>
-
-    <div class="listing-meta">
-        <p><strong>Opis:</strong> {{ listing.description }}</p>
-
-        <p>
-            <strong>Vrsta korisnika:</strong>
-            {% if listing.user_type == "owner" %}
-                Vlasnik apartmana / vile
-            {% elif listing.user_type == "cleaner" %}
-                Čistač / pružatelj usluge
-            {% else %}
-                Nepoznato
-            {% endif %}
+        <h1 style="font-size: 2.5rem; margin: 1rem 0;">{{ listing.title }}</h1>
+        
+        <p style="font-size: 1.2rem; color: var(--text-muted); margin-bottom: 2rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 2rem;">
+            {{ listing.description }}
         </p>
 
-        <p><strong>Lokacija:</strong> {{ listing.location }}</p>
-        <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
-        <p><strong>Datum objave:</strong> {{ listing.formatted_created_at }}</p>
-    </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+            <div>
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Lokacija</p>
+                <p style="font-size: 1.1rem; font-weight: 600;">{{ listing.location }}</p>
+            </div>
+            <div>
+                <p style="color: var(--text-muted); font-size: 0.8rem; text-transform: uppercase; font-weight: 700;">Kontakt podaci</p>
+                <p style="font-size: 1.1rem; font-weight: 600; color: var(--primary);">{{ listing.contact }}</p>
+            </div>
+        </div>
 
-    <div class="actions-row">
-        <a href="{{ url_for('listings') }}" class="btn btn-secondary">Natrag na oglase</a>
-    </div>
-</article>
+        {% if listing.image_filename %}
+            <img src="{{ url_for('static', filename='uploads/' ~ listing.image_filename) }}" 
+                 style="width: 100%; border-radius: 20px; margin-top: 2rem; box-shadow: var(--shadow);">
+        {% endif %}
+    </article>
+</div>
 {% endblock %}

@@ -54,10 +54,24 @@ def create_listing():
         user_type = request.form.get("user_type", "").strip()
         location = request.form.get("location", "").strip()
         contact = request.form.get("contact", "").strip()
+        image = request.files.get("image")
 
         if not title or not description or not user_type or not location or not contact:
             flash("Sva polja moraju biti ispunjena.", "error")
             return render_template("create_listing.html")
+
+        image_filename = None
+
+        if image and image.filename:
+            if not allowed_file(image.filename):
+                flash("Dozvoljeni su samo JPG, JPEG, PNG i WEBP formati.", "error")
+                return render_template("create_listing.html")
+
+            safe_filename = secure_filename(image.filename)
+            unique_filename = f"{uuid.uuid4().hex}_{safe_filename}"
+            image_path = os.path.join(app.config["UPLOAD_FOLDER"], unique_filename)
+            image.save(image_path)
+            image_filename = unique_filename
 
         listing = {
             "title": title,
@@ -65,6 +79,7 @@ def create_listing():
             "user_type": user_type,
             "location": location,
             "contact": contact,
+            "image_filename": image_filename,
             "created_at": datetime.now(UTC)
         }
 

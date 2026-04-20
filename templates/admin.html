@@ -1,53 +1,38 @@
 {% extends "base.html" %}
 
-{% block title %}Admin panel | Adria Clean{% endblock %}
+{% block title %}Admin Panel | Adria Clean{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Admin panel</h1>
-<p class="page-subtitle">Pregled i upravljanje objavljenim oglasima.</p>
+<h1 class="page-title">Kontrolna ploča</h1>
+<p class="page-subtitle">Upravljanje svim oglasima na platformi.</p>
 
-{% if listings %}
-    {% for listing in listings %}
-        <article class="listing-card">
-            {% if listing.user_type == "owner" %}
-                <span class="badge badge-owner">Traži uslugu</span>
-            {% elif listing.user_type == "cleaner" %}
-                <span class="badge badge-cleaner">Nudi uslugu</span>
-            {% endif %}
-
-            <h2 class="listing-title">{{ listing.title }}</h2>
-
-            <div class="listing-meta">
-                <p><strong>Opis:</strong> {{ listing.description }}</p>
-                <p>
-                    <strong>Vrsta korisnika:</strong>
-                    {% if listing.user_type == "owner" %}
-                        Vlasnik apartmana / vile
-                    {% elif listing.user_type == "cleaner" %}
-                        Čistač / pružatelj usluge
-                    {% else %}
-                        Nepoznato
-                    {% endif %}
-                </p>
-                <p><strong>Lokacija:</strong> {{ listing.location }}</p>
-                <p><strong>Kontakt:</strong> {{ listing.contact }}</p>
-                <p><strong>Datum objave:</strong> {{ listing.created_at }}</p>
-            </div>
-
-            <div class="actions-row">
-                <a href="{{ url_for('edit_listing', listing_id=listing._id) }}" class="btn">
-                    Uredi oglas
-                </a>
-
-                <form method="POST" action="{{ url_for('delete_listing', listing_id=listing._id) }}">
-                    <button type="submit" class="btn btn-danger">Obriši oglas</button>
-                </form>
-            </div>
-        </article>
-    {% endfor %}
-{% else %}
-    <div class="empty-state">
-        <p>Nema oglasa za prikaz.</p>
-    </div>
-{% endif %}
+<div style="overflow-x: auto; background: white; border-radius: 20px; box-shadow: var(--shadow); padding: 1.5rem;">
+    <table style="width: 100%; border-collapse: collapse; text-align: left;">
+        <thead>
+            <tr style="border-bottom: 2px solid #f1f5f9;">
+                <th style="padding: 1rem;">Oglas</th>
+                <th style="padding: 1rem;">Lokacija</th>
+                <th style="padding: 1rem;">Tip</th>
+                <th style="padding: 1rem;">Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for listing in listings %}
+            <tr style="border-bottom: 1px solid #f1f5f9;">
+                <td style="padding: 1rem;"><strong>{{ listing.title }}</strong></td>
+                <td style="padding: 1rem;">{{ listing.location }}</td>
+                <td style="padding: 1rem;">
+                    {% if listing.user_type == 'owner' %}Vlasnik{% else %}Čistač{% endif %}
+                </td>
+                <td style="padding: 1rem; display: flex; gap: 0.5rem;">
+                    <a href="{{ url_for('listing_detail', listing_id=listing._id) }}" class="btn btn-secondary" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;">Vidi</a>
+                    <form method="POST" action="{{ url_for('delete_listing', listing_id=listing._id) }}" onsubmit="return confirm('Sigurno obrisati?')">
+                        <button type="submit" class="btn btn-danger" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: #ef4444;">Obriši</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
