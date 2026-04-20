@@ -15,7 +15,13 @@
                 <a href="{{ url_for('home') }}">Početna</a>
                 <a href="{{ url_for('create_listing') }}">Objavi oglas</a>
                 <a href="{{ url_for('listings') }}">Pregled oglasa</a>
-                <a href="{{ url_for('admin') }}">Admin panel</a>
+                <a href="{% if session.get('admin_logged_in') %}{{ url_for('admin') }}{% else %}{{ url_for('admin_login') }}{% endif %}">
+                    Admin panel
+                </a>
+
+                {% if session.get('admin_logged_in') %}
+                    <a href="{{ url_for('admin_logout') }}">Odjava</a>
+                {% endif %}
             </nav>
         </div>
     </header>

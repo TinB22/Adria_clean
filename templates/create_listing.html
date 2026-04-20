@@ -7,7 +7,7 @@
 <p class="page-subtitle">Ispuni podatke i objavi svoj oglas na platformi.</p>
 
 <section class="form-card">
-    <form method="POST" action="{{ url_for('create_listing') }}">
+    <form method="POST" action="{{ url_for('create_listing') }}" enctype="multipart/form-data">
         <div class="form-group">
             <label for="title">Naslov oglasa</label>
             <input type="text" id="title" name="title" required>

@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from werkzeug.utils import secure_filename
 from pymongo import MongoClient
 from config import Config
 from datetime import datetime, UTC
 from bson.objectid import ObjectId
 import certifi
+import os
+import uuid
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -13,11 +16,30 @@ client = MongoClient(app.config["MONGO_URI"], tlsCAFile=ca)
 db = client[app.config["DB_NAME"]]
 listings_collection = db["listings"]
 
+app.config.from_object(Config)
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
+
+
 #helper funkcija
 def format_datetime(dt):
     if dt:
         return dt.strftime("%d.%m.%Y. u %H:%M")
     return ""
+
+def is_admin_logged_in():
+    return session.get("admin_logged_in", False)
+
+def admin_required():
+    if not is_admin_logged_in():
+        flash("Prvo se moraš prijaviti kao admin.", "error")
+        return False
+    return True
+
+def allowed_file(filename):
+    allowed_extensions = {"png", "jpg", "jpeg", "webp"}
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in allowed_extensions
+
+
 
 @app.route("/")
 def home():
@@ -91,20 +113,59 @@ def listing_detail(listing_id):
 
     return render_template("listing_detail.html", listing=listing)
 
+#admin rute...
 @app.route("/admin")
 def admin():
+    if not admin_required():
+        return redirect(url_for("admin_login"))
+
     all_listings = list(listings_collection.find().sort("created_at", -1))
+
+    for listing in all_listings:
+        listing["formatted_created_at"] = format_datetime(listing.get("created_at"))
+
     return render_template("admin.html", listings=all_listings)
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "").strip()
+
+        if (
+            username == app.config["ADMIN_USERNAME"]
+            and password == app.config["ADMIN_PASSWORD"]
+        ):
+            session["admin_logged_in"] = True
+            flash("Uspješno si prijavljen kao admin.", "success")
+            return redirect(url_for("admin"))
+
+        flash("Neispravno korisničko ime ili lozinka.", "error")
+
+    return render_template("admin_login.html")
+
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin_logged_in", None)
+    flash("Uspješno si odjavljen.", "success")
+    return redirect(url_for("home"))
 
 
 @app.route("/delete-listing/<listing_id>", methods=["POST"])
 def delete_listing(listing_id):
+    if not admin_required():
+        return redirect(url_for("admin_login"))
+
     listings_collection.delete_one({"_id": ObjectId(listing_id)})
     flash("Oglas je uspješno obrisan.", "success")
     return redirect(url_for("admin"))
 
 @app.route("/edit-listing/<listing_id>", methods=["GET", "POST"])
 def edit_listing(listing_id):
+    if not admin_required():
+        return redirect(url_for("admin_login"))
+
     listing = listings_collection.find_one({"_id": ObjectId(listing_id)})
 
     if not listing:
