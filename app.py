@@ -73,6 +73,17 @@ def listings():
         selected_type=selected_type,
         location=location
     )
+    
+@app.route("/listing/<listing_id>")
+def listing_detail(listing_id):
+    listing = listings_collection.find_one({"_id": ObjectId(listing_id)})
+
+    if not listing:
+        return "Oglas nije pronađen.", 404
+
+    listing["formatted_created_at"] = format_datetime(listing.get("created_at"))
+
+    return render_template("listing_detail.html", listing=listing)
 
 @app.route("/admin")
 def admin():

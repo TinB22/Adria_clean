@@ -210,3 +210,7 @@ textarea {
 .form-card {
     margin-top: 20px;
 }
+
+.listing-card .page-title {
+    margin-bottom: 20px;
+}
