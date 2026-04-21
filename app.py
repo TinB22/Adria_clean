@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from werkzeug.utils import secure_filename
+from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo import MongoClient
 from config import Config
 from datetime import datetime, UTC
@@ -19,6 +20,10 @@ listings_collection = db["listings"]
 app.config.from_object(Config)
 os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
+#nova kolekcija za korisnike
+listings_collection = db["listings"]
+users_collection = db["users"]
+applications_collection = db["applications"]
 
 #helper funkcija
 def format_datetime(dt):
@@ -39,24 +44,125 @@ def allowed_file(filename):
     allowed_extensions = {"png", "jpg", "jpeg", "webp"}
     return "." in filename and filename.rsplit(".", 1)[1].lower() in allowed_extensions
 
+#helper f-je za login korisnika
+def is_user_logged_in():
+    return session.get("user_logged_in", False)
+
+def current_user():
+    if not is_user_logged_in():
+        return None
+
+    user_id = session.get("user_id")
+    if not user_id:
+        return None
+
+    return users_collection.find_one({"_id": ObjectId(user_id)})
+
+def user_required():
+    if not is_user_logged_in():
+        flash("Moraš se prijaviti za pristup ovoj stranici.", "error")
+        return False
+    return True
 
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
+#register i login rute za korisnike
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "POST":
+        full_name = request.form.get("full_name", "").strip()
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "").strip()
+        role = request.form.get("role", "").strip()
+
+        if not full_name or not email or not password or not role:
+            flash("Sva polja moraju biti ispunjena.", "error")
+            return render_template("register.html")
+
+        if role not in ["owner", "cleaner"]:
+            flash("Neispravna uloga korisnika.", "error")
+            return render_template("register.html")
+
+        existing_user = users_collection.find_one({"email": email})
+        if existing_user:
+            flash("Korisnik s tim emailom već postoji.", "error")
+            return render_template("register.html")
+
+        hashed_password = generate_password_hash(password)
+
+        user = {
+            "full_name": full_name,
+            "email": email,
+            "password": hashed_password,
+            "role": role,
+            "created_at": datetime.now(UTC)
+        }
+
+        result = users_collection.insert_one(user)
+
+        session["user_logged_in"] = True
+        session["user_id"] = str(result.inserted_id)
+        session["user_role"] = role
+        session["user_name"] = full_name
+
+        flash("Registracija je uspješna. Dobrodošao!", "success")
+        return redirect(url_for("home"))
+
+    return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email", "").strip().lower()
+        password = request.form.get("password", "").strip()
+
+        if not email or not password:
+            flash("Email i lozinka su obavezni.", "error")
+            return render_template("login.html")
+
+        user = users_collection.find_one({"email": email})
+
+        if not user or not check_password_hash(user["password"], password):
+            flash("Neispravan email ili lozinka.", "error")
+            return render_template("login.html")
+
+        session["user_logged_in"] = True
+        session["user_id"] = str(user["_id"])
+        session["user_role"] = user["role"]
+        session["user_name"] = user["full_name"]
+
+        flash("Uspješno si prijavljen.", "success")
+        return redirect(url_for("home"))
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.pop("user_logged_in", None)
+    session.pop("user_id", None)
+    session.pop("user_role", None)
+    session.pop("user_name", None)
+
+    flash("Uspješno si odjavljen.", "success")
+    return redirect(url_for("home"))
 
 @app.route("/create-listing", methods=["GET", "POST"])
 def create_listing():
+    if not user_required():
+        return redirect(url_for("login"))
+
+    user = current_user()
     if request.method == "POST":
         title = request.form.get("title", "").strip()
         description = request.form.get("description", "").strip()
-        user_type = request.form.get("user_type", "").strip()
         location = request.form.get("location", "").strip()
         contact = request.form.get("contact", "").strip()
         image = request.files.get("image")
 
-        if not title or not description or not user_type or not location or not contact:
+        if not title or not description or not location or not contact:
             flash("Sva polja moraju biti ispunjena.", "error")
             return render_template("create_listing.html")
 
@@ -76,7 +182,10 @@ def create_listing():
         listing = {
             "title": title,
             "description": description,
-            "user_type": user_type,
+            "user_type": user["role"],
+            "user_id": user["_id"],
+            "user_name": user["full_name"],
+            "user_email": user["email"],
             "location": location,
             "contact": contact,
             "image_filename": image_filename,
@@ -219,6 +328,11 @@ def edit_listing(listing_id):
         return redirect(url_for("admin"))
 
     return render_template("edit_listing.html", listing=listing)
+
+
+
+#krecem sa login korisnika
+
 
 if __name__ == "__main__":
     # cisto da se Flask sam ne pokrece ispocetka da ne sudaramo thread-ove itd.

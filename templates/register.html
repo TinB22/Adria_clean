@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Registracija | Adria Clean{% endblock %}
+
+{% block content %}
+<div class="form-container" style="max-width: 700px; margin: 2rem auto; padding: 0 1rem;">
+    <h1 class="page-title">Registracija</h1>
+    <p class="page-subtitle">Kreiraj račun kao vlasnik objekta ili čistač.</p>
+
+    <section class="listing-card" style="padding: 3rem; margin-top: 2rem;">
+        <form method="POST" action="{{ url_for('register') }}">
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="full_name">Ime i prezime</label>
+                <input type="text" id="full_name" name="full_name" required style="padding: 1rem; font-size: 1rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required style="padding: 1rem; font-size: 1rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="password">Lozinka</label>
+                <input type="password" id="password" name="password" required style="padding: 1rem; font-size: 1rem;">
+            </div>
+
+            <div class="form-group" style="margin-bottom: 2rem;">
+                <label for="role">Ja sam</label>
+                <select id="role" name="role" required style="padding: 1rem; font-size: 1rem;">
+                    <option value="">-- Odaberi ulogu --</option>
+                    <option value="owner">Vlasnik objekta</option>
+                    <option value="cleaner">Čistač / Servis</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                Registriraj se
+            </button>
+        </form>
+    </section>
+</div>
+{% endblock %}

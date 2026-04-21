@@ -14,13 +14,25 @@
             <nav class="nav">
                 <a href="{{ url_for('home') }}">Početna</a>
                 <a href="{{ url_for('listings') }}">Oglasi</a>
-                <a href="{{ url_for('create_listing') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Objavi oglas</a>
-                
-                {% if session.get('admin_logged_in') %}
-                    <a href="{{ url_for('admin') }}">Admin</a>
-                    <a href="{{ url_for('admin_logout') }}" style="color: #f87171;">Odjava</a>
+
+                {% if session.get('user_logged_in') %}
+                    <span style="margin-right: 0.8rem; font-weight: 600;">
+                        Pozdrav, {{ session.get('user_name', 'korisniče') }}
+                    </span>
+                    <a href="{{ url_for('create_listing') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                        Objavi oglas
+                    </a>
+                    <a href="{{ url_for('logout') }}">Odjava</a>
                 {% else %}
-                    <a href="{{ url_for('admin_login') }}">Login</a>
+                    <a href="{{ url_for('login') }}">Prijava</a>
+                    <a href="{{ url_for('register') }}">Registracija</a>
+                {% endif %}
+
+                {% if session.get('admin_logged_in') %}
+                    <a href="{{ url_for('admin') }}">Admin panel</a>
+                    <a href="{{ url_for('admin_logout') }}" style="color: #f87171;">Admin odjava</a>
+                {% else %}
+                    <a href="{{ url_for('admin_login') }}">Admin login</a>
                 {% endif %}
             </nav>
         </div>
@@ -38,6 +50,7 @@
                 </div>
             {% endif %}
         {% endwith %}
+
         {% block content %}{% endblock %}
     </main>
 </body>
