@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} | Adria Clean{% endblock %}
+
+{% block content %}
+<section class="container" style="padding: 5rem 0; max-width: 980px;">
+    <a href="{{ url_for('blog') }}" style="color: var(--primary); font-weight: 800; text-decoration: none;">
+        ← Povratak na blog
+    </a>
+
+    <div style="margin-top: 2rem;">
+        <span style="display: inline-block; background: #e0f2fe; color: var(--primary); padding: 0.5rem 1rem; border-radius: 999px; font-size: 0.85rem; font-weight: 800; margin-bottom: 1.5rem;">
+            {{ post.category }}
+        </span>
+
+        <h1 style="font-size: 3.2rem; line-height: 1.1; font-weight: 900; color: var(--dark); margin-bottom: 1rem;">
+            {{ post.title }}
+        </h1>
+
+        <p style="color: var(--text-muted); margin-bottom: 2rem;">
+            Objavljeno: {{ post.date }}
+        </p>
+
+        <img src="{{ post.image }}" alt="{{ post.title }}" style="width: 100%; height: 430px; object-fit: cover; border-radius: 35px; box-shadow: var(--shadow); margin-bottom: 3rem;">
+
+        <article style="font-size: 1.15rem; color: var(--dark); line-height: 1.9;">
+            {% for paragraph in post.content.strip().split('\n\n') %}
+                <p style="margin-bottom: 1.5rem;">{{ paragraph }}</p>
+            {% endfor %}
+        </article>
+
+        <div style="margin-top: 4rem; padding: 3rem; background: var(--light-bg); border-radius: 30px; text-align: center;">
+            <h2 style="font-size: 2rem; font-weight: 900; color: var(--dark); margin-bottom: 1rem;">
+                Trebate pomoć oko čišćenja?
+            </h2>
+            <p style="color: var(--text-muted); line-height: 1.7; max-width: 650px; margin: 0 auto 2rem;">
+                Objavite potrebu za čišćenjem ili pregledajte dostupne pružatelje usluga u svojoj blizini.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ url_for('create_listing') }}" class="btn btn-primary" style="padding: 1rem 2rem; border-radius: 16px;">
+                    Objavi oglas
+                </a>
+                <a href="{{ url_for('listings') }}" class="btn btn-primary" style="padding: 1rem 2rem; border-radius: 16px; background: white; border: 1px solid #e2e8f0; color: var(--dark);">
+                    Pregledaj oglase
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -64,10 +64,107 @@ def user_required():
         return False
     return True
 
+# BLOG - za DM
+BLOG_POSTS = [
+    {
+        "slug": "kako-pronaci-pouzdanu-cistacicu-za-apartman-u-sezoni",
+        "title": "Kako pronaći pouzdanu čistačicu za apartman u sezoni?",
+        "category": "Savjeti za iznajmljivače",
+        "date": "4.6.2026.",
+        "image": "https://images.unsplash.com/photo-1581578731548-c64695cc6952?q=80&w=1200&auto=format&fit=crop",
+        "excerpt": "Turistička sezona donosi velik pritisak na vlasnike apartmana i vila. Saznajte kako na vrijeme organizirati čišćenje i izbjeći stres između smjena gostiju.",
+        "content": """
+Turistička sezona za vlasnike apartmana, vila i kuća za odmor često znači stalnu organizaciju, brzu komunikaciju i mnogo detalja koje treba uskladiti u kratkom vremenu. Jedan od najvećih izazova nastaje između odlaska jednih i dolaska drugih gostiju. U tom razdoblju objekt mora biti potpuno očišćen, provjeren i spreman za novi dolazak.
+
+Pronalazak pouzdane osobe za čišćenje nije uvijek jednostavan. Mnogi vlasnici se oslanjaju na preporuke, poznanstva ili objave u Facebook grupama. Takav način može funkcionirati, ali često nije dovoljno brz ni pregledan, posebno kada se čišćenje mora organizirati u zadnji trenutak.
+
+Pouzdana čistačica ili tim za čišćenje trebaju biti dostupni u dogovorenom terminu, razumjeti standarde turističkog smještaja i znati koliko je važno da objekt bude spreman prije dolaska novih gostiju. Vlasnicima je zato važno imati kanal putem kojeg mogu brzo pronaći osobe koje nude usluge čišćenja na njihovom području.
+
+AdriaClean rješava taj problem povezivanjem vlasnika turističkih objekata s pružateljima usluga čišćenja. Vlasnik može objaviti potrebu, navesti lokaciju, opis objekta i termin, dok pružatelji usluga mogu pregledavati oglase ili objaviti vlastitu ponudu. Na taj način se proces pronalaska čišćenja pojednostavljuje i postaje pregledniji.
+
+Najbolji savjet za vlasnike je da čišćenje ne organiziraju tek kada problem nastane. Potrebno je unaprijed definirati termine, imati rezervnu opciju i koristiti digitalne alate koji olakšavaju pronalazak dostupnih osoba. Tako se smanjuje stres, poboljšava kvaliteta usluge i osigurava bolji dojam kod gostiju.
+"""
+    },
+    {
+        "slug": "checklista-za-pripremu-vile-ili-apartmana-prije-dolaska-gostiju",
+        "title": "Checklista za pripremu vile ili apartmana prije dolaska gostiju",
+        "category": "Korisni resursi",
+        "date": "4.6.2026.",
+        "image": "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?q=80&w=1200&auto=format&fit=crop",
+        "excerpt": "Praktična checklista za vlasnike turističkih objekata koja pomaže da apartman ili vila budu spremni prije dolaska novih gostiju.",
+        "content": """
+Priprema apartmana ili vile prije dolaska gostiju jedan je od najvažnijih dijelova uspješnog turističkog iznajmljivanja. Gosti često prvi dojam stvaraju već pri ulasku u objekt, a čistoća je jedan od najvažnijih faktora zadovoljstva.
+
+Kako bi se smanjila mogućnost pogreške, korisno je imati jednostavnu checklistu koja se može koristiti prije svakog dolaska gostiju.
+
+1. Provjeriti kupaonice i sanitarije  
+Kupaonice trebaju biti detaljno očišćene, bez tragova kamenca, neugodnih mirisa ili potrošenih osnovnih potrepština. Posebnu pažnju treba obratiti na WC školjku, tuš kabinu, umivaonik, ogledala i podove.
+
+2. Zamijeniti posteljinu i ručnike  
+Sva posteljina i ručnici moraju biti čisti, suhi i uredno složeni. Poželjno je imati rezervni set za situacije kada se smjene gostiju odvijaju u kratkom vremenu.
+
+3. Očistiti kuhinju  
+Kuhinju treba pregledati detaljno: radne površine, sudoper, hladnjak, štednjak, pećnicu, posuđe i ladice. Gosti često primjećuju sitne detalje, zato kuhinja mora ostavljati dojam urednosti.
+
+4. Provjeriti podove i staklene površine  
+Podovi, prozori, ogledala i staklene površine trebaju biti bez mrlja. Kod vila s bazenom i terasom važno je provjeriti i vanjske površine.
+
+5. Nadopuniti osnovne potrepštine  
+To uključuje sapun, toaletni papir, vrećice za smeće, deterdžent, spužvice i ostale osnovne stvari koje gosti očekuju.
+
+6. Provjeriti klimu, Wi-Fi i rasvjetu  
+Prije dolaska gostiju potrebno je provjeriti rade li klima uređaji, internet, televizor i rasvjeta. Sitni tehnički problemi mogu značajno utjecati na zadovoljstvo gostiju.
+
+7. Fotografirati stanje objekta  
+Fotografiranje objekta nakon čišćenja može pomoći vlasniku da ima dokaz o stanju prije dolaska gostiju.
+
+Korištenjem ovakve checkliste vlasnici mogu smanjiti stres i povećati sigurnost da je objekt spreman za dolazak novih gostiju. AdriaClean dodatno olakšava ovaj proces jer omogućuje brže povezivanje s osobama koje nude usluge čišćenja.
+"""
+    },
+    {
+        "slug": "najcesce-greske-kod-organizacije-ciscenja-turistickog-objekta",
+        "title": "Najčešće greške kod organizacije čišćenja turističkog objekta",
+        "category": "Organizacija sezone",
+        "date": "4.6.2026.",
+        "image": "https://images.unsplash.com/photo-1563453392212-326f5e854473?q=80&w=1200&auto=format&fit=crop",
+        "excerpt": "Loša organizacija čišćenja može dovesti do kašnjenja, nezadovoljnih gostiju i dodatnog stresa. Ovo su najčešće greške koje vlasnici mogu izbjeći.",
+        "content": """
+Organizacija čišćenja turističkog objekta često izgleda jednostavno, ali u praksi može postati jedan od najvećih izazova sezone. Kada gosti odlaze ujutro, a novi dolaze već poslijepodne, svaki detalj mora biti dobro isplaniran.
+
+Prva česta greška je oslanjanje samo na jednu osobu za čišćenje. Ako ta osoba nije dostupna, kasni ili otkaže termin, vlasnik može imati ozbiljan problem. Zbog toga je korisno imati više mogućnosti i unaprijed znati kome se može obratiti.
+
+Druga greška je nejasan dogovor oko opsega posla. Vlasnik i osoba koja čisti trebaju unaprijed dogovoriti što točno uključuje čišćenje: kupaonice, kuhinju, terasu, bazen, promjenu posteljine, pranje ručnika i provjeru osnovnih potrepština.
+
+Treća greška je dogovaranje u zadnji trenutak. Iako se neke situacije ne mogu predvidjeti, većinu termina moguće je planirati ranije. Pravovremena organizacija smanjuje stres i omogućuje kvalitetniju uslugu.
+
+Četvrta greška je komunikacija putem previše različitih kanala. Ako se dogovori vode kroz poruke, pozive, komentare u grupama i bilješke, lako dolazi do nesporazuma. Bolje je imati jasne informacije na jednom mjestu.
+
+Peta greška je zanemarivanje povratnih informacija gostiju. Ako se gosti žale na čistoću, vlasnik treba reagirati odmah i poboljšati proces čišćenja prije sljedeće rezervacije.
+
+AdriaClean pomaže u rješavanju ovih problema jer vlasnicima omogućuje objavu potrebe za čišćenjem, a pružateljima usluge daje prostor za predstavljanje. Time se komunikacija pojednostavljuje, a pronalazak usluge postaje brži i pregledniji.
+"""
+    }
+]
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+# ruta za BLOG
+@app.route("/blog")
+def blog():
+    return render_template("blog.html", posts=BLOG_POSTS)
+
+
+@app.route("/blog/<slug>")
+def blog_detail(slug):
+    post = next((post for post in BLOG_POSTS if post["slug"] == slug), None)
+
+    if not post:
+        return "Blog objava nije pronađena.", 404
+
+    return render_template("blog_detail.html", post=post)
 
 #register i login rute za korisnike
 @app.route("/register", methods=["GET", "POST"])
