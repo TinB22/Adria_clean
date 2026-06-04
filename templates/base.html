@@ -9,7 +9,9 @@
 <body>
     <header class="site-header">
         <div class="container header-content">
-            <a href="{{ url_for('home') }}" class="logo">Adria <span>Clean</span></a>
+            <a href="{{ url_for('home') }}" class="logo-link">
+                <img src="{{ url_for('static', filename='logos/AC_logo.png') }}" alt="AdriaClean Logo" class="logo-img">
+            </a>
 
             <nav class="nav">
                 <a href="{{ url_for('home') }}">Početna</a>

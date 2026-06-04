@@ -33,34 +33,46 @@ body {
 }
 
 /* --- HEADER --- */
+/* --- HEADER --- */
 .site-header {
     background-color: var(--dark);
-    padding: 1.25rem 0;
+    /* Potpuno mičemo padding jer će visinu headera sada diktirati isključivo logo i linkovi */
+    padding-top: 0 !important; 
+    padding-bottom: 0 !important; 
     position: sticky;
     top: 0;
     z-index: 1000;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    /* Osiguravamo fiksnu visinu cijelog headera da ne divlja */
+    height: 70px; 
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 100%; /* Uzima punu visinu od 70px headera */
 }
 
-.logo {
-    color: var(--white);
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
     text-decoration: none;
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
 }
 
-.logo span { color: var(--primary); }
+.logo-img {
+    height: 100px; 
+    width: auto;  
+    display: block;
+    margin-top: 10px;
+}
 
 .nav {
     display: flex;
     gap: 1.5rem;
+    align-items: center; /* Savršeno vertikalno centrira linkove u odnosu na logo */
+    height: 100%;
 }
 
 .nav a {
@@ -68,6 +80,8 @@ body {
     text-decoration: none;
     font-weight: 500;
     transition: var(--transition);
+    /* Dodajemo blagi padding na linkove da se lakše kliknu, ali bez širenja headera */
+    padding: 0.5rem 0; 
 }
 
 .nav a:hover { color: var(--primary); }
