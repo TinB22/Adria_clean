@@ -209,3 +209,120 @@ body {
     .hero-text p { margin: 0 auto 2.5rem; }
     .hero-image { display: none; } /* Sakrij sliku na mobitelu za sad */
 }
+
+/* --- POPRAVAK LOGOTIPA I HEADERA --- */
+.logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 50px; /* Smanjeno na 50px da savršeno stane unutar headera od 70px */
+    width: auto;  
+    display: block;
+    margin: 0;    /* Maknut margin-top da ne bježi van crne trake */
+}
+
+/* Ponovno definiramo grid za kartice (baza) */
+.listing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 stupca na desktopu */
+    gap: 3rem;
+    margin-top: 2rem;
+}
+
+
+/* ==========================================================================
+   --- STRANA MOBILNA RESPONSIVNOST (Ekran ispod 992px i 768px) ---
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .hero-luxury {
+        display: flex !important;
+        flex-direction: column !important;
+        text-align: center !important;
+        gap: 3rem !important;
+        min-height: auto !important;
+    }
+
+    .hero-text-large h1 {
+        font-size: 2.5rem !important;
+        line-height: 1.1 !important;
+        letter-spacing: -1px !important;
+    }
+
+    .hero-image-full {
+        width: 100% !important;
+        max-width: 450px !important; 
+        height: 350px !important;    
+        margin: 0 auto !important;
+    }
+
+    .image-container {
+        border-radius: 30px !important;
+    }
+
+    .floating-badge {
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        bottom: -20px !important;
+        padding: 1rem 1.5rem !important;
+        border-radius: 20px !important;
+    }
+    
+    .cta-buttons {
+        justify-content: center !important;
+        flex-wrap: wrap !important;
+        gap: 1rem !important;
+    }
+    
+    .cta-buttons .btn {
+        width: 100% !important;
+        max-width: 300px !important;
+        font-size: 1.2rem !important; 
+        padding: 1rem 2rem !important;
+    }
+    
+    .listing-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+    }
+}
+
+@media (max-width: 768px) {
+    html, body {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+    }
+
+    .site-header {
+        height: auto !important;
+        padding: 10px 0 !important;
+    }
+
+    .header-content {
+        flex-direction: column !important;
+        gap: 12px !important;
+    }
+
+    .nav {
+        gap: 0.8rem !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+    }
+
+    .nav a {
+        font-size: 0.95rem !important;
+        padding: 0.2rem 0.5rem !important;
+    }
+
+    .hero-text-large h1 {
+        font-size: 2rem !important;
+    }
+
+    h2 {
+        font-size: 1.8rem !important;
+    }
+}
