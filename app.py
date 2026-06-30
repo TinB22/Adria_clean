@@ -432,5 +432,5 @@ def edit_listing(listing_id):
 
 
 if __name__ == "__main__":
-    # cisto da se Flask sam ne pokrece ispocetka da ne sudaramo thread-ove itd.
-    app.run(debug=True, use_reloader=False)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
