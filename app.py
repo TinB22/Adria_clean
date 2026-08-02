@@ -8,9 +8,18 @@ from bson.objectid import ObjectId
 import certifi
 import os
 import uuid
+import cloudinary
+import cloudinary.uploader
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+cloudinary.config(
+    cloud_name=app.config["CLOUDINARY_CLOUD_NAME"],
+    api_key=app.config["CLOUDINARY_API_KEY"],
+    api_secret=app.config["CLOUDINARY_API_SECRET"],
+    secure=True
+)
 
 ca = certifi.where()
 client = MongoClient(app.config["MONGO_URI"], tlsCAFile=ca)
@@ -263,18 +272,28 @@ def create_listing():
             flash("Sva polja moraju biti ispunjena.", "error")
             return render_template("create_listing.html")
 
-        image_filename = None
+        image_url = None
+        image_public_id = None
 
-        if image and image.filename:
-            if not allowed_file(image.filename):
-                flash("Dozvoljeni su samo JPG, JPEG, PNG i WEBP formati.", "error")
-                return render_template("create_listing.html")
+    if image and image.filename:
+        if not allowed_file(image.filename):
+            flash("Dozvoljeni su samo JPG, JPEG, PNG i WEBP formati.", "error")
+            return render_template("create_listing.html")
 
-            safe_filename = secure_filename(image.filename)
-            unique_filename = f"{uuid.uuid4().hex}_{safe_filename}"
-            image_path = os.path.join(app.config["UPLOAD_FOLDER"], unique_filename)
-            image.save(image_path)
-            image_filename = unique_filename
+        try:
+            upload_result = cloudinary.uploader.upload(
+                image,
+                folder="adria_clean/listings",
+                resource_type="image"
+            )
+
+            image_url = upload_result.get("secure_url")
+            image_public_id = upload_result.get("public_id")
+
+        except Exception as error:
+            print(f"Cloudinary upload error: {error}")
+            flash("Slika se nije uspjela učitati. Pokušaj ponovno.", "error")
+            return render_template("create_listing.html")
 
         listing = {
             "title": title,
@@ -285,7 +304,8 @@ def create_listing():
             "user_email": user["email"],
             "location": location,
             "contact": contact,
-            "image_filename": image_filename,
+            "image_url": image_url,
+            "image_public_id": image_public_id,
             "created_at": datetime.now(UTC)
         }
 
