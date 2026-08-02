@@ -261,11 +261,13 @@ def create_listing():
         return redirect(url_for("login"))
 
     user = current_user()
+
     if request.method == "POST":
         title = request.form.get("title", "").strip()
         description = request.form.get("description", "").strip()
         location = request.form.get("location", "").strip()
         contact = request.form.get("contact", "").strip()
+
         image = request.files.get("image")
 
         if not title or not description or not location or not contact:
@@ -275,25 +277,31 @@ def create_listing():
         image_url = None
         image_public_id = None
 
-    if image and image.filename:
-        if not allowed_file(image.filename):
-            flash("Dozvoljeni su samo JPG, JPEG, PNG i WEBP formati.", "error")
-            return render_template("create_listing.html")
+        if image and image.filename:
+            if not allowed_file(image.filename):
+                flash(
+                    "Dozvoljeni su samo JPG, JPEG, PNG i WEBP formati.",
+                    "error"
+                )
+                return render_template("create_listing.html")
 
-        try:
-            upload_result = cloudinary.uploader.upload(
-                image,
-                folder="adria_clean/listings",
-                resource_type="image"
-            )
+            try:
+                upload_result = cloudinary.uploader.upload(
+                    image,
+                    folder="adria_clean/listings",
+                    resource_type="image"
+                )
 
-            image_url = upload_result.get("secure_url")
-            image_public_id = upload_result.get("public_id")
+                image_url = upload_result.get("secure_url")
+                image_public_id = upload_result.get("public_id")
 
-        except Exception as error:
-            print(f"Cloudinary upload error: {error}")
-            flash("Slika se nije uspjela učitati. Pokušaj ponovno.", "error")
-            return render_template("create_listing.html")
+            except Exception as error:
+                print(f"Cloudinary upload error: {error}")
+                flash(
+                    "Slika se nije uspjela učitati. Pokušaj ponovno.",
+                    "error"
+                )
+                return render_template("create_listing.html")
 
         listing = {
             "title": title,
@@ -310,6 +318,7 @@ def create_listing():
         }
 
         listings_collection.insert_one(listing)
+
         flash("Oglas je uspješno objavljen.", "success")
         return redirect(url_for("listings"))
 
